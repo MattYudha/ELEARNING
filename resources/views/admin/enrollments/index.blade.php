@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Enrollments')
+@section('title', 'Pendaftaran')
 
 @section('content')
 <div class="card">
@@ -8,16 +8,16 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Student</th>
-                    <th>Course</th>
-                    <th>Date</th>
-                    <th>Progress</th>
+                    <th>Mahasiswa</th>
+                    <th>Mata Kuliah</th>
+                    <th>Tanggal</th>
+                    <th>Progres</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($enrollments as $enrollment)
                     <tr>
-                        <td>{{ $enrollment->user->name }}</td>
+                        <td>{{ optional($enrollment->user)->nm_user ?? 'User Not Found' }}</td>
                         <td>{{ $enrollment->course->title }}</td>
                         <td>{{ $enrollment->created_at->format('d M Y') }}</td>
                         <td>
@@ -32,7 +32,7 @@
                             <div class="progress progress-sm">
                                 <div class="progress-bar bg-green" role="progressbar" style="width: {{ $percent }}%"></div>
                             </div>
-                            <small>{{ $percent }}% Complete</small>
+                            <small>{{ $percent }}% Selesai</small>
                         </td>
                     </tr>
                 @endforeach

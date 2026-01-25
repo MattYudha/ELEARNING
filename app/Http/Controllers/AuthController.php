@@ -17,7 +17,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required'],
             'password' => ['required'],
         ]);
 
@@ -32,7 +32,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'username' => 'The provided credentials do not match our records.',
         ]);
     }
 
@@ -45,12 +45,15 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'username' => 'required|unique:m_user,username|max:10', // Added
+            'email' => 'required|email|unique:m_user,email', // Keep email for now as it's useful
             'password' => 'required|confirmed|min:6',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'username' => $request->username,
+            'nim_user' => rand(100000, 999999), // Dummy NIM for now
+            'nm_user' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'student', // Default role

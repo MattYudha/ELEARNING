@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('quiz_attempts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->char('user_id', 10);
+            $table->foreign('user_id')->references('username')->on('users')->onDelete('cascade');
             $table->foreignId('quiz_id')->constrained()->cascadeOnDelete();
             $table->integer('score')->default(0);
             $table->boolean('passed')->default(false);

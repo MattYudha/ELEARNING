@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lesson_completions', function (Blueprint $table) {
+        Schema::create('academic_master_tables', function (Blueprint $table) {
             $table->id();
-            $table->char('user_id', 10);
-            $table->foreign('user_id')->references('username')->on('users')->onDelete('cascade');
-            $table->foreignId('lesson_id')->constrained()->cascadeOnDelete();
-            $table->timestamp('completed_at')->useCurrent();
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lesson_completions');
+        Schema::dropIfExists('academic_master_tables');
     }
 };

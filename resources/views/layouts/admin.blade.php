@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Dashboard</title>
+  <title>Dashboard Admin</title>
   
   <!-- Render AdminLTE via CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
@@ -26,7 +26,7 @@
       <li class="nav-item">
         <form action="/logout" method="POST" class="form-inline">
             @csrf
-            <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+            <button type="submit" class="btn btn-danger btn-sm">Keluar</button>
         </form>
       </li>
     </ul>
@@ -35,28 +35,54 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="/admin/dashboard" class="brand-link">
-      <span class="brand-text font-weight-light">E-Learning Admin</span>
+      <span class="brand-text font-weight-light">Admin E-Learning</span>
     </a>
 
     <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+            @if(Auth::user()->avatar)
+              <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="img-circle elevation-2" alt="Foto Profil" style="width: 34px; height: 34px; object-fit: cover;">
+            @else
+              <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->nm_user ?? Auth::user()->name) }}&background=random" class="img-circle elevation-2" alt="User Image">
+            @endif
+        </div>
+        <div class="info">
+          <a href="{{ route('admin.profile.edit') }}" class="d-block">{{ Auth::user()->nm_user ?? Auth::user()->name }}</a>
+        </div>
+      </div>
+
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
           <li class="nav-item">
             <a href="/admin/dashboard" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Dashboard</p>
+              <p>Beranda</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="/admin/courses" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
-                <p>Courses</p>
+                <p>Mata Kuliah</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="/admin/enrollments" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
-                <p>Enrollments</p>
+                <p>Pendaftaran</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.mahasiswa.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-user-graduate"></i>
+                <p>Mahasiswa</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.dosen.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                <p>Dosen</p>
             </a>
           </li>
           <!-- Add more menu items here -->

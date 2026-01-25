@@ -12,16 +12,19 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    protected $table = 'm_user'; // Updated table name
+    protected $primaryKey = 'username';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
-        'name',
-        'email',
+        'username',
+        'nim_user',
+        'nm_user', // Updated column name
+        'email', // Keeping email for auth/notifications for now unless explicitly asked to remove logic
         'password',
         'role',
+        'avatar',
     ];
 
     /**
@@ -43,23 +46,22 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
         ];
     }
 
     public function enrollments()
     {
-        return $this->hasMany(Enrollment::class);
+        return $this->hasMany(Enrollment::class, 'user_id', 'username');
     }
 
     public function completedLessons()
     {
-        return $this->hasMany(LessonCompletion::class);
+        return $this->hasMany(LessonCompletion::class, 'user_id', 'username');
     }
 
     public function quizAttempts()
     {
-        return $this->hasMany(QuizAttempt::class);
+        return $this->hasMany(QuizAttempt::class, 'user_id', 'username');
     }
 
 }

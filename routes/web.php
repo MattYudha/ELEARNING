@@ -27,6 +27,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/courses/{course}/quizzes/{quiz}', [\App\Http\Controllers\Student\QuizController::class, 'show'])->name('student.quizzes.show');
     Route::post('/courses/{course}/quizzes/{quiz}/submit', [\App\Http\Controllers\Student\QuizController::class, 'submit'])->name('student.quizzes.submit');
 
+    // Student Profile
+    Route::get('/profile', [\App\Http\Controllers\Student\ProfileController::class, 'edit'])->name('student.profile.edit');
+    Route::put('/profile', [\App\Http\Controllers\Student\ProfileController::class, 'update'])->name('student.profile.update');
+
     Route::get('/dashboard', function () {
         return view('dashboard'); // Student dashboard
     })->name('dashboard');
@@ -51,4 +55,14 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     Route::resource('quizzes.questions', \App\Http\Controllers\Admin\QuestionController::class)->except(['index', 'show']);
 
     Route::get('/enrollments', [\App\Http\Controllers\Admin\EnrollmentController::class, 'index'])->name('enrollments.index');
+    
+    // Profile
+    Route::get('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
+
+    // Mahasiswa (Academic)
+    Route::resource('mahasiswa', \App\Http\Controllers\Admin\MahasiswaController::class);
+
+    // Dosen (Academic)
+    Route::resource('dosen', \App\Http\Controllers\Admin\DosenController::class);
 });
